@@ -7,7 +7,8 @@ import Radio from "antd/lib/radio";
 import RadioGroup from "antd/lib/radio/group";
 import Input from "antd/lib/input";
 import Card from "antd/lib/card";
-import { width } from "window-size";
+import Row from "antd/lib/row";
+import Icon from "antd/lib/icon";
 
 class App extends Component {
   state = {
@@ -30,6 +31,10 @@ class App extends Component {
     this.setState({ list: list });
     this.setState({ dialogShow: false });
   };
+  remove = index => {
+    let list = this.state.list.filter((item, i) => i !== index);
+    this.setState({ list: list });
+  };
 
   render() {
     const radioStyle = {
@@ -43,11 +48,33 @@ class App extends Component {
           添加
         </Button>
         <Card style={{ width: 300 }}>
-          {this.state.list.map(item => {
+          {this.state.list.map((item, index) => {
             if (item.type === 1) {
-              return <Input placeholder="Basic usage" />;
+              return (
+                <Row key={index}>
+                  <Input placeholder="Basic usage" style={{ width: 180 }} />
+                  <Icon
+                    onClick={() => {
+                      this.remove(index);
+                    }}
+                    type="close"
+                    style={{ color: "rgb(230, 37, 11)" }}
+                  />
+                </Row>
+              );
             } else {
-              return <DatePicker />;
+              return (
+                <Row key={index}>
+                  <DatePicker style={{ width: 180 }} />
+                  <Icon
+                    onClick={() => {
+                      this.remove(index);
+                    }}
+                    type="close"
+                    style={{ color: "rgb(230, 37, 11)" }}
+                  />
+                </Row>
+              );
             }
           })}
         </Card>
